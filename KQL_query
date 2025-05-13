@@ -1,0 +1,5 @@
+let known_domains = _GetWatchlist('domain');
+let twist_domains = externaldata(domain:string) [@"https://dnstwist.blob.core.windows.net/domains/domains.txt?sp=r&st=2023-11-05T18:37:07Z&se=2030-06-11T01:37:07Z&"];
+union known_domains, twist_domains
+| where domain <> "domain-name"
+| join kind=leftanti (known_domains) on $left.domain == $right.domain
